@@ -1,9 +1,11 @@
+/** Copyright (c) 2013, Takashi Ogura */
 #ifndef __OCULUS_DRIVER_OCULUS_ROS__
 #define __OCULUS_DRIVER_OCULUS_ROS__
 
 #include <OVR.h>
 #include <ros/ros.h>
 #include <tf/transform_broadcaster.h>
+#include <geometry_msgs/PoseStamped.h>
 
 namespace oculus_driver
 {

@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2013, Takashi Ogura
+ * All rights reserved.
+ *
+ * Modified by Lars Harmsen
+ */
+ 
 #include <oculus_driver/oculus_ros.h>
 #include <oculus_driver/util.h>
 #include <oculus_msgs/HMDInfo.h>
@@ -34,7 +41,7 @@ namespace oculus_driver
         {
             is_info_loaded = hmd->GetDeviceInfo(&info);
             sensor = *hmd->GetSensor();
-            hmd_pub = node.advertise<oculus_msgs::HMDInfo>("/oculus/hmd_info", 10);
+            hmd_pub = node.advertise<oculus_msgs::HMDInfo>("/oculus/hmdinfo", 10);
         }
         else
         {
@@ -44,7 +51,7 @@ namespace oculus_driver
         if (sensor)
         {
             fusion_result -> AttachToSensor(sensor);
-            pub = node.advertise<geometry_msgs::Quaternion>("/oculus/orientation", 10);
+            pub = node.advertise<geometry_msgs::PoseStamped>("/oculus/orientation_stamped", 1);
         }
         return is_info_loaded || sensor;
     }
@@ -70,16 +77,17 @@ namespace oculus_driver
         if (sensor)
         {
             // topic
-            geometry_msgs::Quaternion q_msg;
-            convertQuaternionToMsg(fusion_result->GetOrientation(), q_msg);
+            geometry_msgs::PoseStamped q_msg;
+            convertQuaternionToMsg(fusion_result->GetOrientation(), q_msg.pose.orientation);
+            q_msg.header.stamp = now;
             pub.publish(q_msg);
 
             // tf
             tf::Transform transform;
-            transform.setRotation(tf::Quaternion(q_msg.x,
-                         q_msg.y,
-                         q_msg.z,
-                         q_msg.w));
+            transform.setRotation(tf::Quaternion(q_msg.pose.orientation.x,
+                         q_msg.pose.orientation.y,
+                         q_msg.pose.orientation.z,
+                         q_msg.pose.orientation.w));
             br.sendTransform(tf::StampedTransform(transform,
                            now,
                            parent_frame,

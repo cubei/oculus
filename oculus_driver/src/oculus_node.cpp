@@ -1,3 +1,4 @@
+/** Copyright (c) 2013, Takashi Ogura */
 #include <oculus_driver/oculus_ros.h>
 #include <ros/ros.h>
 
@@ -7,7 +8,7 @@ int main(int argc, char** argv)
     ros::NodeHandle node;
     oculus_driver::OculusRos oculus(node);
     ros::NodeHandle local_node("~");
-    double frequency(10.0);
+    double frequency(120.0);
     local_node.getParam("frequency", frequency);
     ros::Rate r(frequency);
     if(oculus.init())

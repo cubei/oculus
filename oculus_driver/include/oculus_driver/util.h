@@ -1,3 +1,4 @@
+/** Copyright (c) 2013, Takashi Ogura */
 #ifndef __OCULUS_DRIVER_UTIL__
 #define __OCULUS_DRIVER_UTIL__
 

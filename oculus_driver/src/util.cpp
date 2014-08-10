@@ -1,3 +1,4 @@
+/** Copyright (c) 2013, Takashi Ogura */
 #include <oculus_driver/util.h>
 
 namespace oculus_driver
